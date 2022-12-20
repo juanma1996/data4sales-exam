@@ -10,9 +10,6 @@ namespace Domain
         [JsonProperty("diameter")]
         public string Diameter { get; set; }
 
-        [JsonProperty("films")]
-        public List<string> Films { get; set; }
-
         [JsonProperty("gravity")]
         public string Gravity { get; set; }
 
@@ -25,8 +22,10 @@ namespace Domain
         [JsonProperty("population")]
         public string Population { get; set; }
 
-        [JsonProperty("residents")]
-        public List<string> Residents { get; set; }
+        public List<string> residents { get; set; }
+
+        [JsonIgnore]
+        public List<People> Residents { get; set; }
 
         [JsonProperty("rotation_period")]
         public string RotationPeriod { get; set; }

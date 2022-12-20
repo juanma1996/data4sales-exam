@@ -10,9 +10,6 @@ namespace Domain
         [JsonProperty("eye_color")]
         public string EyeColor { get; set; }
 
-        [JsonProperty("films")]
-        public IEnumerable<Film> Films { get; set; }
-
         [JsonProperty("gender")]
         public string Gender { get; set; }
 
@@ -22,8 +19,8 @@ namespace Domain
         [JsonProperty("height")]
         public string Height { get; set; }
 
-        [JsonProperty("homeworld")]
-        public string Homeworld { get; set; }
+        [JsonIgnore]
+        public Planet Homeworld { get; set; }
 
         [JsonProperty("mass")]
         public string Mass { get; set; }
@@ -33,13 +30,11 @@ namespace Domain
 
         [JsonProperty("skin_color")]
         public string SkinColor { get; set; }
-        [JsonProperty("species")]
-        public IEnumerable<Specie> Species { get; set; }
 
-        [JsonProperty("starships")]
-        public IEnumerable<Starship> Starships { get; set; }
-
-        [JsonProperty("vehicles")]
-        public IEnumerable<Vehicle> Vehicles { get; set; }
+        public Planet homeworld { get; set; }
+        public List<string> species { get; set; }
+        public List<string> starships { get; set; }
+        public List<string> vehicles { get; set; }
+        public List<string> films { get; set; }
     }
 }

@@ -34,13 +34,9 @@ namespace Domain
         [JsonProperty("passengers")]
         public string Passengers { get; set; }
 
-        [JsonProperty("pilots")]
-        public IEnumerable<People> Pilots { get; set; }
-
-        [JsonProperty("films")]
-        public IEnumerable<Film> Films { get; set; }
-
         [JsonProperty("vehicle_class")]
         public string VehicleClass { get; set; }
+
+        public List<string> pilots { get; set; }
     }
 }

@@ -22,8 +22,8 @@ namespace Domain
         [JsonProperty("hair_colors")]
         public string HairColors { get; set; }
 
-        [JsonProperty("homeworld")]
-        public string Homeworld { get; set; }
+        [JsonIgnore]
+        public Planet Homeworld { get; set; }
 
         [JsonProperty("language")]
         public string Language { get; set; }
@@ -31,13 +31,11 @@ namespace Domain
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("people")]
-        public List<People> People { get; set; }
-
-        [JsonProperty("films")]
-        public List<Film> Films { get; set; }
-
         [JsonProperty("skin_colors")]
         public string SkinColors { get; set; }
+
+        public Planet homeworld { get; set; }
+        public List<string> people { get; set; }
+
     }
 }

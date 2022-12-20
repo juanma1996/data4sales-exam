@@ -1,6 +1,9 @@
-﻿using DataAccess;
+﻿using ApiClient;
+using ApiClientInterface;
+using BusinessLogic;
+using BusinessLogicInterface;
+using DataAccess;
 using DataAccessInterface;
-using Domain;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -18,6 +21,9 @@ namespace Factory
         public void AddCustomServices()
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IImporterLogic, ImporterLogic>();
+            services.AddScoped<IApiClient, StarWarsApiClient>();
+            services.AddScoped<IImporterRepository, ImporterRepository>();
         }
     }
 }
