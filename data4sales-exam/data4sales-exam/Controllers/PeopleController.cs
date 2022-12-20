@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using DataAccessInterface;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,11 +10,18 @@ namespace data4sales_exam.Controllers
     [ApiController]
     public class PeopleController : ControllerBase
     {
+        private readonly IRepository<People> peopleRepository;
+
+        public PeopleController(IRepository<People> peopleRepository)
+        {
+            this.peopleRepository = peopleRepository;
+        }
         // GET: api/<PeopleController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            throw new NotImplementedException();
+            var data = await peopleRepository.GetAllAsync();
+            return Ok(data);
         }
 
         // GET api/<PeopleController>/5
