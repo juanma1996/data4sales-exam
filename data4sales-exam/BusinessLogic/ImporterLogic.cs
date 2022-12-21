@@ -19,27 +19,35 @@ namespace BusinessLogic
 
         public async Task Import()
         {
-            CreateFilmTable();
-            CreatePlanetTable();
-            CreatePeopleTable();
-            CreateSpecieTable();
-            CreateStarshipTable();
-            CreateVehicleTable();
-            var films = await apiClient.GetAllFilmAsync();
-            foreach (var item in films)
+            try
             {
-                var people = apiClient.GetListAsync<People>(item.characters);
-                var planets = apiClient.GetListAsync<Planet>(item.planets);
-                var species = apiClient.GetListAsync<Specie>(item.species);
-                var starships = apiClient.GetListAsync<Starship>(item.starships);
-                var vehicles = apiClient.GetListAsync<Vehicle>(item.vehicles);
+                await CreateFilmTable();
+                await CreatePlanetTable();
+                await CreatePeopleTable();
+                await CreateSpecieTable();
+                await CreateStarshipTable();
+                await CreateVehicleTable();
+                var films = await apiClient.GetAllFilmAsync();
+                foreach (var item in films)
+                {
+                    var people = apiClient.GetListAsync<People>(item.characters);
+                    var planets = apiClient.GetListAsync<Planet>(item.planets);
+                    var species = apiClient.GetListAsync<Specie>(item.species);
+                    var starships = apiClient.GetListAsync<Starship>(item.starships);
+                    var vehicles = apiClient.GetListAsync<Vehicle>(item.vehicles);
 
-                await Task.WhenAll(people, planets, species, starships, vehicles);
+                    await Task.WhenAll(people, planets, species, starships, vehicles);
 
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
             }
         }
 
-        private void CreateFilmTable()
+        private async Task CreateFilmTable()
         {
             string script = @"CREATE TABLE IF NOT EXISTS Films (
 	                            Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -53,30 +61,30 @@ namespace BusinessLogic
 	                            Created DATE NOT NULL,
 	                            Edited DATE NOT NULL
                             );";
-            repository.CreateTable(script);
+            await repository.CreateTable(script);
         }
 
-        private void CreatePlanetTable()
+        private async Task CreatePlanetTable()
         {
             string script = @"CREATE TABLE IF NOT EXISTS Planets (
                                 Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 Name VARCHAR(255),
-                                Diameter INTEGER,
-                                RotationPeriod INTEGER,
-                                OrbitalPeriod INTEGER,
+                                Diameter VARCHAR(255),
+                                RotationPeriod VARCHAR(255),
+                                OrbitalPeriod VARCHAR(255),
                                 Gravity VARCHAR(255),
                                 Population VARCHAR(255),
                                 Climate VARCHAR(255),
                                 Terrain VARCHAR(255),
-                                SurfaceWater INTEGER,
+                                SurfaceWater VARCHAR(255),
 	                            Url VARCHAR(255) NOT NULL,
 	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL,
+	                            Edited DATE NOT NULL
                             );";
-            repository.CreateTable(script);
+            await repository.CreateTable(script);
         }
 
-        private void CreatePeopleTable()
+        private async Task CreatePeopleTable()
         {
             string script = @"CREATE TABLE IF NOT EXISTS People (
 	                            Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -92,37 +100,37 @@ namespace BusinessLogic
 	                            Url VARCHAR(255) NOT NULL,
 	                            Created DATE NOT NULL,
 	                            Edited DATE NOT NULL,
-	                            FOREIGN KEY (HomeworldId) REFERENCES Planet(Id)
+	                            FOREIGN KEY (HomeworldId) REFERENCES Planets(Id)
                             );";
-            repository.CreateTable(script);
+            await repository.CreateTable(script);
         }
 
-        private void CreateSpecieTable()
+        private async Task CreateSpecieTable()
         {
             string script = @"CREATE TABLE IF NOT EXISTS Species (
-                Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                Name VARCHAR(255),
-                Classification VARCHAR(255),
-                Designation VARCHAR(255),
-                AverageHeight VARCHAR(255),
-                SkinColors VARCHAR(255),
-                HairColors VARCHAR(255),
-                EyeColors VARCHAR(255),
-                AverageLifespan VARCHAR(255),
-                HomeworldId int,
-                Language VARCHAR(255),
-	            Url VARCHAR(255) NOT NULL,
-	            Created DATE NOT NULL,
-	            Edited DATE NOT NULL,
-	            FOREIGN KEY (HomeworldId) REFERENCES Planet(Id)
-            );";                
-            repository.CreateTable(script);
+                                Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                Name VARCHAR(255),
+                                Classification VARCHAR(255),
+                                Designation VARCHAR(255),
+                                AverageHeight VARCHAR(255),
+                                SkinColors VARCHAR(255),
+                                HairColors VARCHAR(255),
+                                EyeColors VARCHAR(255),
+                                AverageLifespan VARCHAR(255),
+                                HomeworldId int,
+                                Language VARCHAR(255),
+	                            Url VARCHAR(255) NOT NULL,
+	                            Created DATE NOT NULL,
+	                            Edited DATE NOT NULL,
+	                            FOREIGN KEY (HomeworldId) REFERENCES Planets(Id)
+                            );";
+            await repository.CreateTable(script);
         }
 
-        private void CreateStarshipTable()
+        private async Task CreateStarshipTable()
         {
             string script = @"CREATE TABLE IF NOT EXISTS Starships (
-                                Id INTEGER PRIMARY KEY,
+                                Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 Name VARCHAR(255),
                                 Model VARCHAR(255),
                                 Manufacturer VARCHAR(255),
@@ -138,15 +146,15 @@ namespace BusinessLogic
                                 StarshipClass VARCHAR(255),
 	                            Url VARCHAR(255) NOT NULL,
 	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL,
+	                            Edited DATE NOT NULL
                             );";
-            repository.CreateTable(script);
+            await repository.CreateTable(script);
         }
 
-        private void CreateVehicleTable()
+        private async Task CreateVehicleTable()
         {
             string script = @"CREATE TABLE IF NOT EXISTS Vehicles (
-                                Id INTEGER PRIMARY KEY,
+                                Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 Name VARCHAR(255),
                                 Model VARCHAR(255),
                                 Manufacturer VARCHAR(255),
@@ -159,9 +167,9 @@ namespace BusinessLogic
                                 Consumables VARCHAR(255),
 	                            Url VARCHAR(255) NOT NULL,
 	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL,
-                            );";                   
-            repository.CreateTable(script);
+	                            Edited DATE NOT NULL
+                            );";
+            await repository.CreateTable(script);
         }
     }
 }
