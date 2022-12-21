@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using DataAccessInterface;
+using Domain;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 
@@ -13,19 +14,29 @@ namespace DataAccess
             this.configuration = configuration;
         }
 
-        public Task<int> AddAsync(T entity)
+        public async Task<int> AddAsync(T entity, string script)
         {
-            throw new NotImplementedException();
+            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                int newId = await connection.ExecuteAsync(script, entity);
+                return newId;
+            }
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var sql = $"DELETE FROM {GetTableName()} WHERE Id = @Id";
+            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                await connection.ExecuteAsync(sql, new { Id = id });
+            }
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            var sql = "SELECT * FROM " + typeof(T).Name;
+            var sql = $"SELECT * FROM {GetTableName()}";
             using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
                 connection.Open();
@@ -36,7 +47,7 @@ namespace DataAccess
 
         public async Task<T> GetByIdAsync(int id)
         {
-            var sql = "SELECT * FROM People WHERE Id = @Id";
+            var sql = $"SELECT * FROM {GetTableName()} WHERE Id = @Id";
             using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
                 connection.Open();
@@ -45,9 +56,27 @@ namespace DataAccess
             }
         }
 
-        public Task<int> UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity, string script)
         {
-            throw new NotImplementedException();
+            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                await connection.ExecuteAsync(script, entity);
+            }
+        }
+
+        public async Task InsertRelation(string script)
+        {
+            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                await connection.ExecuteAsync(script);
+            }
+        }
+
+        private static string GetTableName()
+        {
+            return typeof(T) == typeof(People) ? "People" : typeof(T).Name + "s";
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Domain
         [JsonProperty("skin_color")]
         public string SkinColor { get; set; }
 
-        public Planet homeworld { get; set; }
+        public string homeworld { get; set; }
         public List<string> species { get; set; }
         public List<string> starships { get; set; }
         public List<string> vehicles { get; set; }

@@ -24,8 +24,8 @@ namespace Domain
 
         public List<string> residents { get; set; }
 
-        [JsonIgnore]
-        public List<People> Residents { get; set; }
+        //[JsonIgnore]
+        //public List<People> Residents { get; set; }
 
         [JsonProperty("rotation_period")]
         public string RotationPeriod { get; set; }

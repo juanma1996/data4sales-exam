@@ -16,6 +16,7 @@ namespace data4sales_exam.Controllers
         {
             this.peopleRepository = peopleRepository;
         }
+
         // GET: api/<PeopleController>
         [HttpGet]
         public async Task<IActionResult> Get()

@@ -4,6 +4,7 @@ using BusinessLogic;
 using BusinessLogicInterface;
 using DataAccess;
 using DataAccessInterface;
+using Domain;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -22,6 +23,7 @@ namespace Factory
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IImporterLogic, ImporterLogic>();
+            services.AddScoped<IEntityLogic<Planet>, PlanetLogic>();
             services.AddScoped<IApiClient, StarWarsApiClient>();
             services.AddScoped<IImporterRepository, ImporterRepository>();
         }

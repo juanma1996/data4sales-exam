@@ -10,14 +10,16 @@ namespace BusinessLogic
 
         private readonly IApiClient apiClient;
         private readonly IImporterRepository repository;
+        private readonly IEntityLogic<Planet> planetLogic;
 
-        public ImporterLogic(IApiClient apiClient, IImporterRepository repository)
+        public ImporterLogic(IApiClient apiClient, IImporterRepository repository, IEntityLogic<Planet> planetLogic)
         {
             this.apiClient = apiClient;
             this.repository = repository;
+            this.planetLogic = planetLogic;
         }
 
-        public async Task Import()
+        public async Task ImportAsync()
         {
             try
             {
@@ -27,6 +29,14 @@ namespace BusinessLogic
                 await CreateSpecieTable();
                 await CreateStarshipTable();
                 await CreateVehicleTable();
+                await CreatePeopleFilmTable();
+                await CreatePlanetFilmTable();
+                await CreateSpecieFilmTable();
+                await CreateStarshipFilmTable();
+                await CreateVehicleFilmTable();
+                await CreateSpeciePeopleTable();
+                await CreateStarshipPeopleTable();
+                await CreateVehiclePeopleTable();
                 var films = await apiClient.GetAllFilmAsync();
                 foreach (var item in films)
                 {
@@ -38,6 +48,8 @@ namespace BusinessLogic
 
                     await Task.WhenAll(people, planets, species, starships, vehicles);
 
+                    await planetLogic.Add(planets.Result.ToList());
+
                 }
             }
             catch (Exception e)
@@ -45,6 +57,102 @@ namespace BusinessLogic
 
                 throw;
             }
+        }
+
+        private async Task CreateVehiclePeopleTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS VehiclePeople (
+	                            VehicleId INTEGER,
+                                PeopleId INTEGER,
+                                PRIMARY KEY (VehicleId, PeopleId),
+                                FOREIGN KEY (VehicleId) REFERENCES Vehicles(Id),
+                                FOREIGN KEY (PeopleId) REFERENCES People(Id)
+                            );";
+            await repository.CreateTable(script);
+        }
+
+        private async Task CreateStarshipPeopleTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS StarshipPeople (
+	                            StarshipId INTEGER,
+                                PeopleId INTEGER,
+                                PRIMARY KEY (StarshipId, PeopleId),
+                                FOREIGN KEY (StarshipId) REFERENCES Starships(Id),
+                                FOREIGN KEY (PeopleId) REFERENCES People(Id)
+                            );";
+            await repository.CreateTable(script);
+        }
+
+        private async Task CreateSpeciePeopleTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS SpeciePeople (
+	                            SpecieId INTEGER,
+                                PeopleId INTEGER,
+                                PRIMARY KEY (SpecieId, PeopleId),
+                                FOREIGN KEY (SpecieId) REFERENCES Species(Id),
+                                FOREIGN KEY (PeopleId) REFERENCES People(Id)
+                            );";
+            await repository.CreateTable(script);
+        }
+
+        private async Task CreateVehicleFilmTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS VehicleFilms (
+	                            VehicleId INTEGER,
+                                FilmId INTEGER,
+                                PRIMARY KEY (VehicleId, FilmId),
+                                FOREIGN KEY (VehicleId) REFERENCES Vehicles(Id),
+                                FOREIGN KEY (FilmId) REFERENCES Films(Id)
+                            );";
+            await repository.CreateTable(script);
+        }
+
+        private async Task CreateStarshipFilmTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS StarshipFilms (
+	                            StarshipId INTEGER,
+                                FilmId INTEGER,
+                                PRIMARY KEY (StarshipId, FilmId),
+                                FOREIGN KEY (StarshipId) REFERENCES Starships(Id),
+                                FOREIGN KEY (FilmId) REFERENCES Films(Id)
+                            );";
+            await repository.CreateTable(script);
+        }
+
+        private async Task CreateSpecieFilmTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS SpecieFilms (
+	                            SpecieId INTEGER,
+                                FilmId INTEGER,
+                                PRIMARY KEY (SpecieId, FilmId),
+                                FOREIGN KEY (SpecieId) REFERENCES Species(Id),
+                                FOREIGN KEY (FilmId) REFERENCES Films(Id)
+                            );";
+            await repository.CreateTable(script);
+        }
+
+        private async Task CreatePlanetFilmTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS PlanetFilms (
+	                            PlanetId INTEGER,
+                                FilmId INTEGER,
+                                PRIMARY KEY (PlanetId, FilmId),
+                                FOREIGN KEY (PlanetId) REFERENCES Planets(Id),
+                                FOREIGN KEY (FilmId) REFERENCES Films(Id)
+                            );";
+            await repository.CreateTable(script);
+        }
+
+        private async Task CreatePeopleFilmTable()
+        {
+            string script = @"CREATE TABLE IF NOT EXISTS PeopleFilms (
+	                            PeopleId INTEGER,
+                                FilmId INTEGER,
+                                PRIMARY KEY (PeopleId, FilmId),
+                                FOREIGN KEY (PeopleId) REFERENCES People(Id),
+                                FOREIGN KEY (FilmId) REFERENCES Films(Id)
+                            );";
+            await repository.CreateTable(script);
         }
 
         private async Task CreateFilmTable()

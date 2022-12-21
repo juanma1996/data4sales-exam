@@ -18,9 +18,9 @@ namespace data4sales_exam.Controllers
 
         // POST api/<ImporterController>
         [HttpPost]
-        public void Post()
+        public async Task Post()
         {
-            importerLogic.Import();
+            await importerLogic.ImportAsync();
         }
     }
 }

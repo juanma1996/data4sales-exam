@@ -8,6 +8,6 @@ namespace BusinessLogicInterface
 {
     public interface IImporterLogic
     {
-        Task Import();
+        Task ImportAsync();
     }
 }

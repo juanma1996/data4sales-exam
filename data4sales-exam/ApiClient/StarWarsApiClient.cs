@@ -30,7 +30,6 @@ namespace ApiClient
                 using (HttpClient client = GetClient())
                 {
                     HttpResponseMessage response = await client.GetAsync(url);
-                    //throw if error
                     response.EnsureSuccessStatusCode();
                     result = await response.Content.ReadAsAsync<T>();
                 }
@@ -61,12 +60,6 @@ namespace ApiClient
 
             return await t;
 
-        }
-
-        public async Task<Planet> GetPlanetAsync(string id)
-        {
-            string url = string.Format("{0}/{1}", "planets", id);
-            return await GetAsync<Planet>(url);
         }
 
         public async Task<List<Film>> GetAllFilmAsync()
