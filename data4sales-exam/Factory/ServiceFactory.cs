@@ -23,7 +23,10 @@ namespace Factory
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IImporterLogic, ImporterLogic>();
-            services.AddScoped<IEntityLogic<Planet>, PlanetLogic>();
+            services.AddScoped(typeof(IEntityLogic<>), typeof(EntityLogic<>));
+            services.AddScoped<IPlanetLogic, PlanetLogic>();
+            services.AddScoped<IPeopleLogic, PeopleLogic>();
+            services.AddScoped<IFilmLogic, FilmLogic>();
             services.AddScoped<IApiClient, StarWarsApiClient>();
             services.AddScoped<IImporterRepository, ImporterRepository>();
         }

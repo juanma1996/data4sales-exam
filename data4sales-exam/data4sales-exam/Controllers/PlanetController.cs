@@ -10,9 +10,9 @@ namespace data4sales_exam.Controllers
     [ApiController]
     public class PlanetController : ControllerBase
     {
-        private readonly IEntityLogic<Planet> planetLogic;
+        private readonly IPlanetLogic planetLogic;
 
-        public PlanetController(IEntityLogic<Planet> planetLogic)
+        public PlanetController(IPlanetLogic planetLogic)
         {
             this.planetLogic = planetLogic;
         }

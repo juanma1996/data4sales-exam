@@ -2,7 +2,7 @@
 
 namespace BusinessLogicInterface
 {
-    public interface IPlanetLogic
+    public interface IPlanetLogic : IEntityLogic<Planet>
     {
         Task Add(List<Planet> entity);
         Task<int> Add(Planet entity);

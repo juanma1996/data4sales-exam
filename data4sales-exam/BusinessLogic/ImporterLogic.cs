@@ -10,9 +10,9 @@ namespace BusinessLogic
 
         private readonly IApiClient apiClient;
         private readonly IImporterRepository repository;
-        private readonly IEntityLogic<Planet> planetLogic;
+        private readonly IPlanetLogic planetLogic;
 
-        public ImporterLogic(IApiClient apiClient, IImporterRepository repository, IEntityLogic<Planet> planetLogic)
+        public ImporterLogic(IApiClient apiClient, IImporterRepository repository, IPlanetLogic planetLogic)
         {
             this.apiClient = apiClient;
             this.repository = repository;
