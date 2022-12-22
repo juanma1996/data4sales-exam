@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogicInterface;
+using Domain;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,49 @@ namespace data4sales_exam.Controllers
     [ApiController]
     public class SpecieController : ControllerBase
     {
+        private readonly ISpecieLogic specieLogic;
+
+        public SpecieController(ISpecieLogic specieLogic)
+        {
+            this.specieLogic = specieLogic;
+        }
+
         // GET: api/<SpecieController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var data = await specieLogic.Get();
+            return Ok(data);
         }
 
         // GET api/<SpecieController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var data = await specieLogic.Get(id);
+            return Ok(data);
         }
 
         // POST api/<SpecieController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] Specie specie)
         {
+            specie.Created = DateTime.Now;
+            await specieLogic.Add(specie);
         }
 
         // PUT api/<SpecieController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task Put(int id, [FromBody] Specie specie)
         {
+            await specieLogic.Update(id, specie);
         }
 
         // DELETE api/<SpecieController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+            await specieLogic.Delete(id);
         }
     }
 }

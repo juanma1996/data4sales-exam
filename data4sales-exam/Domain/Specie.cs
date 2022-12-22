@@ -22,8 +22,8 @@ namespace Domain
         [JsonProperty("hair_colors")]
         public string HairColors { get; set; }
 
-        [JsonIgnore]
-        public Planet Homeworld { get; set; }
+        //[JsonIgnore]
+        //public Planet Homeworld { get; set; }
 
         [JsonProperty("language")]
         public string Language { get; set; }

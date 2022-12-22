@@ -4,21 +4,21 @@ using Domain;
 
 namespace BusinessLogic
 {
-    public class FilmLogic : EntityLogic<Film>, IFilmLogic
+    public class SpecieLogic : EntityLogic<Specie>, ISpecieLogic
     {
-        public FilmLogic(IRepository<Film> filmRepository) : base(filmRepository) { }
+        public SpecieLogic(IRepository<Specie> specieRepository) : base(specieRepository) { }
 
-        public Task Add(List<Film> entity)
+        public Task Add(List<Specie> entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> Add(Film entity)
+        public Task<int> Add(Specie entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(int id, Film entity)
+        public Task Update(int id, Specie entity)
         {
             throw new NotImplementedException();
         }

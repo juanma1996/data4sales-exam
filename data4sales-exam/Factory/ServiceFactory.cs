@@ -27,6 +27,7 @@ namespace Factory
             services.AddScoped<IPlanetLogic, PlanetLogic>();
             services.AddScoped<IPeopleLogic, PeopleLogic>();
             services.AddScoped<IFilmLogic, FilmLogic>();
+            services.AddScoped<ISpecieLogic, SpecieLogic>();
             services.AddScoped<IApiClient, StarWarsApiClient>();
             services.AddScoped<IImporterRepository, ImporterRepository>();
         }
