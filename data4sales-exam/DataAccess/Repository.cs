@@ -9,7 +9,10 @@ public class Repository<T> : IRepository<T> where T : class
 {
     private readonly DapperContext context;
 
-    public Repository(DapperContext context) => this.context = context;
+    public Repository(DapperContext context)
+    {
+        this.context = context;
+    }
 
     public async Task<int> AddAsync(T entity, string script)
     {

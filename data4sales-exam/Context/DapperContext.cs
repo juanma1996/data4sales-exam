@@ -11,10 +11,12 @@ public class DapperContext
     public DapperContext(IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(configuration);
-        this.connectionString = configuration.GetConnectionString("DefaultConnection") ??
-                                throw new ArgumentNullException("Missing DefaultConnection value");
+        connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                           throw new ArgumentNullException("Missing DefaultConnection value");
     }
 
     public IDbConnection CreateConnection()
-        => new MySqlConnection(connectionString);
+    {
+        return new MySqlConnection(connectionString);
+    }
 }

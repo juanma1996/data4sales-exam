@@ -8,7 +8,10 @@ public class ImporterRepository : IImporterRepository
 {
     private readonly DapperContext context;
 
-    public ImporterRepository(DapperContext context) => this.context = context;
+    public ImporterRepository(DapperContext context)
+    {
+        this.context = context;
+    }
 
     public async Task CreateTable(string script)
     {
