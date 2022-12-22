@@ -8,16 +8,18 @@ namespace DataAccess;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    private readonly IConfiguration configuration;
+    private readonly string connectionString;
 
     public Repository(IConfiguration configuration)
     {
-        this.configuration = configuration;
+        ArgumentNullException.ThrowIfNull(configuration);
+        this.connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                                throw new ArgumentNullException("Missing DefaultConnection value");
     }
 
     public async Task<int> AddAsync(T entity, string script)
     {
-        await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        await using var connection = new MySqlConnection(connectionString);
         connection.Open();
         var newId = await connection.ExecuteAsync(script, entity);
         return newId;
@@ -26,7 +28,7 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task DeleteAsync(int id)
     {
         var sql = $"DELETE FROM {GetTableName()} WHERE Id = @Id";
-        await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        await using var connection = new MySqlConnection(connectionString);
         connection.Open();
         await connection.ExecuteAsync(sql, new { Id = id });
     }
@@ -34,7 +36,7 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task<IReadOnlyList<T>> GetAllAsync()
     {
         var sql = $"SELECT * FROM {GetTableName()}";
-        await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        await using var connection = new MySqlConnection(connectionString);
         connection.Open();
         var result = await connection.QueryAsync<T>(sql);
         return result.ToList();
@@ -43,7 +45,7 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task<T> GetByIdAsync(int id)
     {
         var sql = $"SELECT * FROM {GetTableName()} WHERE Id = @Id";
-        await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        await using var connection = new MySqlConnection(connectionString);
         connection.Open();
         var result = await connection.QuerySingleOrDefaultAsync<T>(sql, new { Id = id });
         return result;
@@ -51,14 +53,14 @@ public class Repository<T> : IRepository<T> where T : class
 
     public async Task UpdateAsync(T entity, string script)
     {
-        await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        await using var connection = new MySqlConnection(connectionString);
         connection.Open();
         await connection.ExecuteAsync(script, entity);
     }
 
     public async Task InsertRelation(string script)
     {
-        await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        await using var connection = new MySqlConnection(connectionString);
         connection.Open();
         await connection.ExecuteAsync(script);
     }
