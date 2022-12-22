@@ -1,9 +1,11 @@
-﻿namespace Domain;
+﻿using System.Text.Json.Serialization;
+
+namespace Domain;
 
 public class Response
 {
-    public int Count { get; set; }
-    public object Next { get; set; }
-    public object Previous { get; set; }
-    public List<Film> Results { get; set; }
+    [JsonPropertyName("count")] public int Count { get; set; }
+    [JsonPropertyName("next")] public object Next { get; set; }
+    [JsonPropertyName("previous")] public object Previous { get; set; }
+    [JsonPropertyName("results")] public IEnumerable<Film> Results { get; set; }
 }

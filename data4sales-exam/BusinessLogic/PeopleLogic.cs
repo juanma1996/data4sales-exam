@@ -10,7 +10,7 @@ public class PeopleLogic : EntityLogic<People>, IPeopleLogic
     {
     }
 
-    public Task Add(List<People> entity)
+    public Task Add(IEnumerable<People> entity)
     {
         throw new NotImplementedException();
     }

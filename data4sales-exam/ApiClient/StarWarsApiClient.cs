@@ -20,7 +20,7 @@ public class StarWarsApiClient : IApiClient
         return await t;
     }
 
-    public async Task<List<Film>> GetAllFilmAsync()
+    public async Task<IEnumerable<Film>> GetAllFilmAsync()
     {
         const string url = "films";
         var res = await GetAsync<Response>(url);

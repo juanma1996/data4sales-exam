@@ -45,7 +45,7 @@ public class ImporterLogic : IImporterLogic
 
             await Task.WhenAll(people, planets, species, starships, vehicles);
 
-            await planetLogic.Add(planets.Result.ToList());
+            await planetLogic.Add(planets.Result);
         }
     }
 

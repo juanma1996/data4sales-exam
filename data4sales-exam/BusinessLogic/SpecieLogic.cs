@@ -10,7 +10,7 @@ public class SpecieLogic : EntityLogic<Specie>, ISpecieLogic
     {
     }
 
-    public Task Add(List<Specie> entity)
+    public Task Add(IEnumerable<Specie> entity)
     {
         throw new NotImplementedException();
     }

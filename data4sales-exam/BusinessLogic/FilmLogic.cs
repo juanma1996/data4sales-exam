@@ -10,7 +10,7 @@ public class FilmLogic : EntityLogic<Film>, IFilmLogic
     {
     }
 
-    public Task Add(List<Film> entity)
+    public Task Add(IEnumerable<Film> entity)
     {
         throw new NotImplementedException();
     }

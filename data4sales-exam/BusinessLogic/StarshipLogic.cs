@@ -10,7 +10,7 @@ public class StarshipLogic : EntityLogic<Starship>, IStarshipLogic
     {
     }
 
-    public Task Add(List<Starship> entity)
+    public Task Add(IEnumerable<Starship> entity)
     {
         throw new NotImplementedException();
     }

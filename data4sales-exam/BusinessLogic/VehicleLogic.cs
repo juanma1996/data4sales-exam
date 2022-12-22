@@ -10,7 +10,7 @@ public class VehicleLogic : EntityLogic<Vehicle>, IVehicleLogic
     {
     }
 
-    public Task Add(List<Vehicle> entity)
+    public Task Add(IEnumerable<Vehicle> entity)
     {
         throw new NotImplementedException();
     }

@@ -8,6 +8,5 @@ public class Starship : Vehicle
 
     [JsonPropertyName("hyperdrive_rating")]
     public string HyperdriveRating { get; set; }
-
     [JsonPropertyName("starship_class")] public string StarshipClass { get; set; }
 }

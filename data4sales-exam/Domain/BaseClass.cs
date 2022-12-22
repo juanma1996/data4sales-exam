@@ -5,7 +5,6 @@ namespace Domain;
 public class BaseClass
 {
     public int Id { get; set; }
-
     [JsonPropertyName("url")] public string Url { get; set; }
 
     [JsonPropertyName("created")] public DateTime Created { get; set; }

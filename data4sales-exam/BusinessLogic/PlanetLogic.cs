@@ -18,7 +18,7 @@ public class PlanetLogic : EntityLogic<Planet>, IPlanetLogic
         //this.apiClient = apiClient;
     }
 
-    public async Task Add(List<Planet> planets)
+    public async Task Add(IEnumerable<Planet> planets)
     {
         foreach (var item in planets)
         {
