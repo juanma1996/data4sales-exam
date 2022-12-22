@@ -31,10 +31,10 @@ namespace Domain
         [JsonProperty("skin_color")]
         public string SkinColor { get; set; }
 
-        public string homeworld { get; set; }
-        public List<string> species { get; set; }
-        public List<string> starships { get; set; }
-        public List<string> vehicles { get; set; }
-        public List<string> films { get; set; }
+        public string Homeworld { get; set; }
+        public List<string> Species { get; set; }
+        public List<string> Starships { get; set; }
+        public List<string> Vehicles { get; set; }
+        public List<string> Films { get; set; }
     }
 }

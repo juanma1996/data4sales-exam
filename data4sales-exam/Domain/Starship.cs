@@ -5,7 +5,7 @@ namespace Domain
     public class Starship : Vehicle
     {
         [JsonProperty("MGLT")]
-        public string MGLT { get; set; }
+        public string Mglt { get; set; }
 
         [JsonProperty("hyperdrive_rating")]
         public string HyperdriveRating { get; set; }

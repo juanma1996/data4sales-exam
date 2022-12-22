@@ -16,62 +16,50 @@ namespace DataAccess
 
         public async Task<int> AddAsync(T entity, string script)
         {
-            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                int newId = await connection.ExecuteAsync(script, entity);
-                return newId;
-            }
+            await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            var newId = await connection.ExecuteAsync(script, entity);
+            return newId;
         }
 
         public async Task DeleteAsync(int id)
         {
             var sql = $"DELETE FROM {GetTableName()} WHERE Id = @Id";
-            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                await connection.ExecuteAsync(sql, new { Id = id });
-            }
+            await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            await connection.ExecuteAsync(sql, new { Id = id });
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
             var sql = $"SELECT * FROM {GetTableName()}";
-            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var result = await connection.QueryAsync<T>(sql);
-                return result.ToList();
-            }
+            await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            var result = await connection.QueryAsync<T>(sql);
+            return result.ToList();
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
             var sql = $"SELECT * FROM {GetTableName()} WHERE Id = @Id";
-            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var result = await connection.QuerySingleOrDefaultAsync<T>(sql, new { Id = id });
-                return result;
-            }
+            await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            var result = await connection.QuerySingleOrDefaultAsync<T>(sql, new { Id = id });
+            return result;
         }
 
         public async Task UpdateAsync(T entity, string script)
         {
-            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                await connection.ExecuteAsync(script, entity);
-            }
+            await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            await connection.ExecuteAsync(script, entity);
         }
 
         public async Task InsertRelation(string script)
         {
-            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                await connection.ExecuteAsync(script);
-            }
+            await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            await connection.ExecuteAsync(script);
         }
 
         private static string GetTableName()

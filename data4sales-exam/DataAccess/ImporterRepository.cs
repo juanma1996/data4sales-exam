@@ -15,11 +15,9 @@ namespace DataAccess
 
         public async Task CreateTable(string script)
         {
-            using (var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                await connection.ExecuteAsync(script);
-            }
+            await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            await connection.ExecuteAsync(script);
         }
     }
 }

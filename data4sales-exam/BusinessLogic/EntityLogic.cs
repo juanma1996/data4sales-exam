@@ -5,26 +5,26 @@ namespace BusinessLogic
 {
     public class EntityLogic<T> : IEntityLogic<T> where T : class
     {
-        internal readonly IRepository<T> repository;
+        internal readonly IRepository<T> Repository;
 
         public EntityLogic(IRepository<T> repository)
         {
-            this.repository = repository;
+            this.Repository = repository;
         }
 
         public async Task<T> Get(int id)
         {
-            return await repository.GetByIdAsync(id);
+            return await Repository.GetByIdAsync(id);
         }
 
         public async Task<IEnumerable<T>> Get()
         {
-            return await repository.GetAllAsync();
+            return await Repository.GetAllAsync();
         }
 
         public async Task Delete(int id)
         {
-            await repository.DeleteAsync(id);
+            await Repository.DeleteAsync(id);
         }
     }
 }

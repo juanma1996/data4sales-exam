@@ -21,47 +21,39 @@ namespace BusinessLogic
 
         public async Task ImportAsync()
         {
-            try
+            await CreateFilmTable();
+            await CreatePlanetTable();
+            await CreatePeopleTable();
+            await CreateSpecieTable();
+            await CreateStarshipTable();
+            await CreateVehicleTable();
+            await CreatePeopleFilmTable();
+            await CreatePlanetFilmTable();
+            await CreateSpecieFilmTable();
+            await CreateStarshipFilmTable();
+            await CreateVehicleFilmTable();
+            await CreateSpeciePeopleTable();
+            await CreateStarshipPeopleTable();
+            await CreateVehiclePeopleTable();
+            var films = await apiClient.GetAllFilmAsync();
+            foreach (var item in films)
             {
-                await CreateFilmTable();
-                await CreatePlanetTable();
-                await CreatePeopleTable();
-                await CreateSpecieTable();
-                await CreateStarshipTable();
-                await CreateVehicleTable();
-                await CreatePeopleFilmTable();
-                await CreatePlanetFilmTable();
-                await CreateSpecieFilmTable();
-                await CreateStarshipFilmTable();
-                await CreateVehicleFilmTable();
-                await CreateSpeciePeopleTable();
-                await CreateStarshipPeopleTable();
-                await CreateVehiclePeopleTable();
-                var films = await apiClient.GetAllFilmAsync();
-                foreach (var item in films)
-                {
-                    var people = apiClient.GetListAsync<People>(item.characters);
-                    var planets = apiClient.GetListAsync<Planet>(item.planets);
-                    var species = apiClient.GetListAsync<Specie>(item.species);
-                    var starships = apiClient.GetListAsync<Starship>(item.starships);
-                    var vehicles = apiClient.GetListAsync<Vehicle>(item.vehicles);
+                var people = apiClient.GetListAsync<People>(item.Characters);
+                var planets = apiClient.GetListAsync<Planet>(item.Planets);
+                var species = apiClient.GetListAsync<Specie>(item.Species);
+                var starships = apiClient.GetListAsync<Starship>(item.Starships);
+                var vehicles = apiClient.GetListAsync<Vehicle>(item.Vehicles);
 
-                    await Task.WhenAll(people, planets, species, starships, vehicles);
+                await Task.WhenAll(people, planets, species, starships, vehicles);
 
-                    await planetLogic.Add(planets.Result.ToList());
+                await planetLogic.Add(planets.Result.ToList());
 
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw;
             }
         }
 
         private async Task CreateVehiclePeopleTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS VehiclePeople (
+            const string script = @"CREATE TABLE IF NOT EXISTS VehiclePeople (
 	                            VehicleId INTEGER,
                                 PeopleId INTEGER,
                                 PRIMARY KEY (VehicleId, PeopleId),
@@ -73,7 +65,7 @@ namespace BusinessLogic
 
         private async Task CreateStarshipPeopleTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS StarshipPeople (
+            const string script = @"CREATE TABLE IF NOT EXISTS StarshipPeople (
 	                            StarshipId INTEGER,
                                 PeopleId INTEGER,
                                 PRIMARY KEY (StarshipId, PeopleId),
@@ -85,7 +77,7 @@ namespace BusinessLogic
 
         private async Task CreateSpeciePeopleTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS SpeciePeople (
+            const string script = @"CREATE TABLE IF NOT EXISTS SpeciePeople (
 	                            SpecieId INTEGER,
                                 PeopleId INTEGER,
                                 PRIMARY KEY (SpecieId, PeopleId),
@@ -97,7 +89,7 @@ namespace BusinessLogic
 
         private async Task CreateVehicleFilmTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS VehicleFilms (
+            const string script = @"CREATE TABLE IF NOT EXISTS VehicleFilms (
 	                            VehicleId INTEGER,
                                 FilmId INTEGER,
                                 PRIMARY KEY (VehicleId, FilmId),
@@ -109,7 +101,7 @@ namespace BusinessLogic
 
         private async Task CreateStarshipFilmTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS StarshipFilms (
+            const string script = @"CREATE TABLE IF NOT EXISTS StarshipFilms (
 	                            StarshipId INTEGER,
                                 FilmId INTEGER,
                                 PRIMARY KEY (StarshipId, FilmId),
@@ -121,7 +113,7 @@ namespace BusinessLogic
 
         private async Task CreateSpecieFilmTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS SpecieFilms (
+            const string script = @"CREATE TABLE IF NOT EXISTS SpecieFilms (
 	                            SpecieId INTEGER,
                                 FilmId INTEGER,
                                 PRIMARY KEY (SpecieId, FilmId),
@@ -133,7 +125,7 @@ namespace BusinessLogic
 
         private async Task CreatePlanetFilmTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS PlanetFilms (
+            const string script = @"CREATE TABLE IF NOT EXISTS PlanetFilms (
 	                            PlanetId INTEGER,
                                 FilmId INTEGER,
                                 PRIMARY KEY (PlanetId, FilmId),
@@ -145,7 +137,7 @@ namespace BusinessLogic
 
         private async Task CreatePeopleFilmTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS PeopleFilms (
+            const string script = @"CREATE TABLE IF NOT EXISTS PeopleFilms (
 	                            PeopleId INTEGER,
                                 FilmId INTEGER,
                                 PRIMARY KEY (PeopleId, FilmId),
@@ -157,7 +149,7 @@ namespace BusinessLogic
 
         private async Task CreateFilmTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS Films (
+            const string script = @"CREATE TABLE IF NOT EXISTS Films (
 	                            Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	                            Title VARCHAR(255) NOT NULL,
 	                            Episode_id INT NOT NULL,
@@ -174,7 +166,7 @@ namespace BusinessLogic
 
         private async Task CreatePlanetTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS Planets (
+            const string script = @"CREATE TABLE IF NOT EXISTS Planets (
                                 Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 Name VARCHAR(255),
                                 Diameter VARCHAR(255),
@@ -194,7 +186,7 @@ namespace BusinessLogic
 
         private async Task CreatePeopleTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS People (
+            const string script = @"CREATE TABLE IF NOT EXISTS People (
 	                            Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	                            Name VARCHAR(255) NOT NULL,
 	                            Birth_year VARCHAR(255),
@@ -215,7 +207,7 @@ namespace BusinessLogic
 
         private async Task CreateSpecieTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS Species (
+            const string script = @"CREATE TABLE IF NOT EXISTS Species (
                                 Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 Name VARCHAR(255),
                                 Classification VARCHAR(255),
@@ -237,7 +229,7 @@ namespace BusinessLogic
 
         private async Task CreateStarshipTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS Starships (
+            const string script = @"CREATE TABLE IF NOT EXISTS Starships (
                                 Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 Name VARCHAR(255),
                                 Model VARCHAR(255),
@@ -261,7 +253,7 @@ namespace BusinessLogic
 
         private async Task CreateVehicleTable()
         {
-            string script = @"CREATE TABLE IF NOT EXISTS Vehicles (
+            const string script = @"CREATE TABLE IF NOT EXISTS Vehicles (
                                 Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 Name VARCHAR(255),
                                 Model VARCHAR(255),

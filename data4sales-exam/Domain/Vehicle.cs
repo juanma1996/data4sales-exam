@@ -37,6 +37,6 @@ namespace Domain
         [JsonProperty("vehicle_class")]
         public string VehicleClass { get; set; }
 
-        public List<string> pilots { get; set; }
+        public List<string> Pilots { get; set; }
     }
 }

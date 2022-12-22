@@ -1,6 +1,4 @@
-﻿using Domain;
-
-namespace BusinessLogicInterface
+﻿namespace BusinessLogicInterface
 {
     public interface IEntityLogic<T> where T : class
     {

@@ -1,5 +1,4 @@
-﻿using ApiClientInterface;
-using BusinessLogicInterface;
+﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
 
@@ -43,7 +42,7 @@ namespace BusinessLogic
         {
             var script = @"INSERT INTO Planets (climate, diameter, gravity, name, orbitalperiod, population, rotationperiod, surfacewater, terrain, url, created, edited)
                             VALUES (@climate, @diameter, @gravity, @name, @orbitalperiod, @population, @rotationperiod, @surfacewater, @terrain, @url, @created, @edited)";
-            return await repository.AddAsync(planet, script);
+            return await Repository.AddAsync(planet, script);
         }
 
         public async Task Update(int id, Planet planet)
@@ -64,7 +63,7 @@ namespace BusinessLogic
                                 created = @created,
                                 edited = @edited
                             WHERE id = @id";
-            await repository.UpdateAsync(planet, script);
+            await Repository.UpdateAsync(planet, script);
         }
     }
 }

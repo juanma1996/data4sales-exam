@@ -6,10 +6,10 @@ namespace ApiClient
 {
     public class StarWarsApiClient : IApiClient
     {
-        readonly protected string BaseAddress = @"http://swapi.dev/api/";
-        readonly protected string AcceptHeader = "application/json";
+        protected readonly string BaseAddress = @"http://swapi.dev/api/";
+        protected readonly string AcceptHeader = "application/json";
 
-        HttpClient GetClient()
+        private HttpClient GetClient()
         {
             var client = new HttpClient();
 
@@ -22,39 +22,20 @@ namespace ApiClient
 
         public async Task<T> GetAsync<T>(string url)
         {
+            using var client = GetClient();
+            var response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadAsAsync<T>();
 
-            try
-            {
-                T result = default(T);
-
-                using (HttpClient client = GetClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    result = await response.Content.ReadAsAsync<T>();
-                }
-
-                return result;
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
+            return result;
         }
 
         public async Task<IEnumerable<T>> GetListAsync<T>(IEnumerable<string> urls)
         {
 
-            Task<IEnumerable<T>> t = Task.Run(() =>
+            var t = Task.Run(() =>
             {
-                List<T> items = new List<T>();
-                foreach (var url in urls)
-                {
-                    T item = GetAsync<T>(url).Result;
-                    items.Add(item);
-
-                }
+                var items = urls.Select(url => GetAsync<T>(url).Result).ToList();
                 return items.AsEnumerable();
             });
 
@@ -64,9 +45,9 @@ namespace ApiClient
 
         public async Task<List<Film>> GetAllFilmAsync()
         {
-            var url = string.Format("films");
+            const string url = "films";
             var res = await GetAsync<Response>(url);
-            return res.results;
+            return res.Results;
         }
     }
 }

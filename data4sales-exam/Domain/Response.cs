@@ -2,9 +2,9 @@
 {
     public class Response
     {
-        public int count { get; set; }
-        public object next { get; set; }
-        public object previous { get; set; }
-        public List<Film> results { get; set; }
+        public int Count { get; set; }
+        public object Next { get; set; }
+        public object Previous { get; set; }
+        public List<Film> Results { get; set; }
     }
 }

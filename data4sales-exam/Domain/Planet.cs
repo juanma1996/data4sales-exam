@@ -22,7 +22,7 @@ namespace Domain
         [JsonProperty("population")]
         public string Population { get; set; }
 
-        public List<string> residents { get; set; }
+        public List<string> Residents { get; set; }
 
         //[JsonIgnore]
         //public List<People> Residents { get; set; }
