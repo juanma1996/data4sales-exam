@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogicInterface;
+using Domain;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,49 @@ namespace data4sales_exam.Controllers
     [ApiController]
     public class StarshipController : ControllerBase
     {
+        private readonly IStarshipLogic starshipLogic;
+
+        public StarshipController(IStarshipLogic starshipLogic)
+        {
+            this.starshipLogic = starshipLogic;
+        }
+
         // GET: api/<StarshipController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var data = await starshipLogic.Get();
+            return Ok(data);
         }
 
         // GET api/<StarshipController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var data = await starshipLogic.Get(id);
+            return Ok(data);
         }
 
         // POST api/<StarshipController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] Starship starship)
         {
+            starship.Created = DateTime.Now;
+            await starshipLogic.Add(starship);
         }
 
         // PUT api/<StarshipController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task Put(int id, [FromBody] Starship starship)
         {
+            await starshipLogic.Update(id, starship);
         }
 
         // DELETE api/<StarshipController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+            await starshipLogic.Delete(id);
         }
     }
 }
