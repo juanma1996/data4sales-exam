@@ -1,11 +1,10 @@
 ﻿using Domain;
 
-namespace BusinessLogicInterface
+namespace BusinessLogicInterface;
+
+public interface IFilmLogic : IEntityLogic<Film>
 {
-    public interface IFilmLogic : IEntityLogic<Film>
-    {
-        Task Add(List<Film> entity);
-        Task<int> Add(Film entity);
-        Task Update(int id, Film entity);
-    }
+    Task Add(List<Film> entity);
+    Task<int> Add(Film entity);
+    Task Update(int id, Film entity);
 }

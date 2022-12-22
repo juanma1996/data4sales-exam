@@ -1,11 +1,10 @@
 ﻿using Domain;
 
-namespace BusinessLogicInterface
+namespace BusinessLogicInterface;
+
+public interface IStarshipLogic : IEntityLogic<Starship>
 {
-    public interface IStarshipLogic : IEntityLogic<Starship>
-    {
-        Task Add(List<Starship> entity);
-        Task<int> Add(Starship entity);
-        Task Update(int id, Starship entity);
-    }
+    Task Add(List<Starship> entity);
+    Task<int> Add(Starship entity);
+    Task Update(int id, Starship entity);
 }

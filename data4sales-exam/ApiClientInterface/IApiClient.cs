@@ -1,10 +1,9 @@
 ﻿using Domain;
 
-namespace ApiClientInterface
+namespace ApiClientInterface;
+
+public interface IApiClient
 {
-    public interface IApiClient
-    {
-        Task<IEnumerable<T>> GetListAsync<T>(IEnumerable<string> urls);
-        Task<List<Film>> GetAllFilmAsync();
-    }
+    Task<IEnumerable<T>> GetListAsync<T>(IEnumerable<string> urls);
+    Task<List<Film>> GetAllFilmAsync();
 }

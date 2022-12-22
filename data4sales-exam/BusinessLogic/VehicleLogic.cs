@@ -2,25 +2,26 @@
 using DataAccessInterface;
 using Domain;
 
-namespace BusinessLogic
+namespace BusinessLogic;
+
+public class VehicleLogic : EntityLogic<Vehicle>, IVehicleLogic
 {
-    public class VehicleLogic : EntityLogic<Vehicle>, IVehicleLogic
+    public VehicleLogic(IRepository<Vehicle> vehicleRepository) : base(vehicleRepository)
     {
-        public VehicleLogic(IRepository<Vehicle> vehicleRepository) : base(vehicleRepository) { }
+    }
 
-        public Task Add(List<Vehicle> entity)
-        {
-            throw new NotImplementedException();
-        }
+    public Task Add(List<Vehicle> entity)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task<int> Add(Vehicle entity)
-        {
-            throw new NotImplementedException();
-        }
+    public Task<int> Add(Vehicle entity)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task Update(int id, Vehicle entity)
-        {
-            throw new NotImplementedException();
-        }
+    public Task Update(int id, Vehicle entity)
+    {
+        throw new NotImplementedException();
     }
 }

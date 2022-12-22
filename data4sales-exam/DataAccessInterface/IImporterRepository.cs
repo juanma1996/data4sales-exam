@@ -1,7 +1,6 @@
-﻿namespace DataAccessInterface
+﻿namespace DataAccessInterface;
+
+public interface IImporterRepository
 {
-    public interface IImporterRepository
-    {
-        Task CreateTable(string script);
-    }
+    Task CreateTable(string script);
 }

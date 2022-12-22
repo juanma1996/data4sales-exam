@@ -1,7 +1,6 @@
-﻿namespace BusinessLogicInterface
+﻿namespace BusinessLogicInterface;
+
+public interface IImporterLogic
 {
-    public interface IImporterLogic
-    {
-        Task ImportAsync();
-    }
+    Task ImportAsync();
 }

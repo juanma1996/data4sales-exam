@@ -1,11 +1,10 @@
 ﻿using Domain;
 
-namespace BusinessLogicInterface
+namespace BusinessLogicInterface;
+
+public interface IPeopleLogic : IEntityLogic<People>
 {
-    public interface IPeopleLogic : IEntityLogic<People>
-    {
-        Task Add(List<People> entity);
-        Task<int> Add(People entity);
-        Task Update(int id, People entity);
-    }
+    Task Add(List<People> entity);
+    Task<int> Add(People entity);
+    Task Update(int id, People entity);
 }
