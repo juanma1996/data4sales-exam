@@ -10,17 +10,20 @@ public class SpecieLogic : EntityLogic<Specie>, ISpecieLogic
     {
     }
 
-    public Task Add(IEnumerable<Specie> entity)
+    public async Task Add(IEnumerable<Specie> entity)
+    {
+        foreach (var item in entity)
+        {
+            await Add(item);
+        }
+    }
+
+    public async Task<int> Add(Specie entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task<int> Add(Specie entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(int id, Specie entity)
+    public async Task Update(int id, Specie entity)
     {
         throw new NotImplementedException();
     }

@@ -10,17 +10,20 @@ public class FilmLogic : EntityLogic<Film>, IFilmLogic
     {
     }
 
-    public Task Add(IEnumerable<Film> entity)
+    public async Task Add(IEnumerable<Film> entity)
+    {
+        foreach (var item in entity)
+        {
+            await Add(item);
+        }
+    }
+
+    public async Task<int> Add(Film entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task<int> Add(Film entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(int id, Film entity)
+    public async Task Update(int id, Film entity)
     {
         throw new NotImplementedException();
     }

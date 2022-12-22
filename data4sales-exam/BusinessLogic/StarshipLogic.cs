@@ -10,17 +10,20 @@ public class StarshipLogic : EntityLogic<Starship>, IStarshipLogic
     {
     }
 
-    public Task Add(IEnumerable<Starship> entity)
+    public async Task Add(IEnumerable<Starship> entity)
+    {
+        foreach (var item in entity)
+        {
+            await Add(item);
+        }
+    }
+
+    public async Task<int> Add(Starship entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task<int> Add(Starship entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(int id, Starship entity)
+    public async Task Update(int id, Starship entity)
     {
         throw new NotImplementedException();
     }

@@ -10,17 +10,20 @@ public class PeopleLogic : EntityLogic<People>, IPeopleLogic
     {
     }
 
-    public Task Add(IEnumerable<People> entity)
+    public async Task Add(IEnumerable<People> entity)
+    {
+        foreach (var item in entity)
+        {
+            await Add(item);
+        }
+    }
+
+    public async Task<int> Add(People entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task<int> Add(People entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(int id, People entity)
+    public async Task Update(int id, People entity)
     {
         throw new NotImplementedException();
     }
