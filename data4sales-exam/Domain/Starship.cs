@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Domain;
 
 public class Starship : Vehicle
 {
-    [JsonProperty("MGLT")] public string Mglt { get; set; }
+    [JsonPropertyName("MGLT")] public string Mglt { get; set; }
 
-    [JsonProperty("hyperdrive_rating")] public string HyperdriveRating { get; set; }
+    [JsonPropertyName("hyperdrive_rating")] public string HyperdriveRating { get; set; }
 
-    [JsonProperty("starship_class")] public string StarshipClass { get; set; }
+    [JsonPropertyName("starship_class")] public string StarshipClass { get; set; }
 }

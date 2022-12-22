@@ -1,31 +1,31 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Domain;
 
 public class Vehicle : BaseClass
 {
-    [JsonProperty("cargo_capacity")] public string CargoCapacity { get; set; }
+    [JsonPropertyName("cargo_capacity")] public string CargoCapacity { get; set; }
 
-    [JsonProperty("consumables")] public string Consumables { get; set; }
+    [JsonPropertyName("consumables")] public string Consumables { get; set; }
 
-    [JsonProperty("cost_in_credits")] public string CostInCredits { get; set; }
+    [JsonPropertyName("cost_in_credits")] public string CostInCredits { get; set; }
 
-    [JsonProperty("crew")] public string Crew { get; set; }
+    [JsonPropertyName("crew")] public string Crew { get; set; }
 
-    [JsonProperty("length")] public string Length { get; set; }
+    [JsonPropertyName("length")] public string Length { get; set; }
 
-    [JsonProperty("manufacturer")] public string Manufacturer { get; set; }
+    [JsonPropertyName("manufacturer")] public string Manufacturer { get; set; }
 
-    [JsonProperty("max_atmosphering_speed")]
+    [JsonPropertyName("max_atmosphering_speed")]
     public string MaxAtmospheringSpeed { get; set; }
 
-    [JsonProperty("model")] public string Model { get; set; }
+    [JsonPropertyName("model")] public string Model { get; set; }
 
-    [JsonProperty("name")] public string Name { get; set; }
+    [JsonPropertyName("name")] public string Name { get; set; }
 
-    [JsonProperty("passengers")] public string Passengers { get; set; }
+    [JsonPropertyName("passengers")] public string Passengers { get; set; }
 
-    [JsonProperty("vehicle_class")] public string VehicleClass { get; set; }
+    [JsonPropertyName("vehicle_class")] public string VehicleClass { get; set; }
 
     public List<string> Pilots { get; set; }
 }

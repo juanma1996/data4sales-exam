@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Domain;
 
@@ -6,9 +6,9 @@ public class BaseClass
 {
     public int Id { get; set; }
 
-    [JsonProperty("url")] public string Url { get; set; }
+    [JsonPropertyName("url")] public string Url { get; set; }
 
-    [JsonProperty("created")] public DateTime Created { get; set; }
+    [JsonPropertyName("created")] public DateTime Created { get; set; }
 
-    [JsonProperty("edited")] public DateTime Edited { get; set; }
+    [JsonPropertyName("edited")] public DateTime Edited { get; set; }
 }
