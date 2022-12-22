@@ -19,8 +19,8 @@ namespace Domain
         [JsonProperty("height")]
         public string Height { get; set; }
 
-        [JsonIgnore]
-        public Planet Homeworld { get; set; }
+        //[JsonIgnore]
+        //public Planet Homeworld { get; set; }
 
         [JsonProperty("mass")]
         public string Mass { get; set; }
