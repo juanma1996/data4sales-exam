@@ -2,6 +2,7 @@
 using ApiClientInterface;
 using BusinessLogic;
 using BusinessLogicInterface;
+using Context;
 using DataAccess;
 using DataAccessInterface;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,5 +31,6 @@ public class ServiceFactory
         services.AddScoped<IVehicleLogic, VehicleLogic>();
         services.AddScoped<IApiClient, StarWarsApiClient>();
         services.AddScoped<IImporterRepository, ImporterRepository>();
+        services.AddSingleton<DapperContext>();
     }
 }

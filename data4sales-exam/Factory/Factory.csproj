@@ -14,6 +14,7 @@
     <ProjectReference Include="..\ApiClientInterface\ApiClientInterface.csproj" />
     <ProjectReference Include="..\ApiClient\ApiClient.csproj" />
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
+    <ProjectReference Include="..\Context\Context.csproj" />
     <ProjectReference Include="..\DataAccessInterface\DataAccessInterface.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>

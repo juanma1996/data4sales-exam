@@ -1,22 +1,18 @@
-﻿using Dapper;
+﻿using Context;
+using Dapper;
 using DataAccessInterface;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
 
 namespace DataAccess;
 
 public class ImporterRepository : IImporterRepository
 {
-    private readonly IConfiguration configuration;
+    private readonly DapperContext context;
 
-    public ImporterRepository(IConfiguration configuration)
-    {
-        this.configuration = configuration;
-    }
+    public ImporterRepository(DapperContext context) => this.context = context;
 
     public async Task CreateTable(string script)
     {
-        await using var connection = new MySqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        using var connection = context.CreateConnection();
         connection.Open();
         await connection.ExecuteAsync(script);
     }
