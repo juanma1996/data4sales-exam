@@ -46,7 +46,6 @@ public class StarWarsApiClient : IApiClient
         response.EnsureSuccessStatusCode();
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<T>(jsonResponse)!;
-        //var result = await response.Content.ReadAsAsync<T>();
         return result;
     }
 }
