@@ -9,13 +9,25 @@ public class ImporterLogic : IImporterLogic
 {
     private readonly IApiClient apiClient;
     private readonly IPlanetLogic planetLogic;
+    private readonly IPeopleLogic peopleLogic;
+    private readonly ISpecieLogic specieLogic;
+    private readonly IFilmLogic filmLogic;
+    private readonly IStarshipLogic starshipLogic;
+    private readonly IVehicleLogic vehicleLogic;
     private readonly IImporterRepository repository;
 
-    public ImporterLogic(IApiClient apiClient, IImporterRepository repository, IPlanetLogic planetLogic)
+    public ImporterLogic(IApiClient apiClient, IImporterRepository repository, IPlanetLogic planetLogic,
+        IPeopleLogic peopleLogic, ISpecieLogic specieLogic, IFilmLogic filmLogic, IStarshipLogic starshipLogic,
+        IVehicleLogic vehicleLogic)
     {
         this.apiClient = apiClient;
         this.repository = repository;
         this.planetLogic = planetLogic;
+        this.peopleLogic = peopleLogic;
+        this.specieLogic = specieLogic;
+        this.filmLogic = filmLogic;
+        this.starshipLogic = starshipLogic;
+        this.vehicleLogic = vehicleLogic;
     }
 
     public async Task ImportAsync()
@@ -45,7 +57,12 @@ public class ImporterLogic : IImporterLogic
 
             await Task.WhenAll(people, planets, species, starships, vehicles);
 
+            await filmLogic.Add(item);
+            await starshipLogic.Add(starships.Result);
+            await vehicleLogic.Add(vehicles.Result);
             await planetLogic.Add(planets.Result);
+            await peopleLogic.Add(people.Result);
+            await specieLogic.Add(species.Result);
         }
     }
 
@@ -149,15 +166,16 @@ public class ImporterLogic : IImporterLogic
     {
         const string script = @"CREATE TABLE IF NOT EXISTS Films (
 	                            Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	                            Title VARCHAR(255) NOT NULL,
-	                            Episode_id INT NOT NULL,
-	                            Opening_crawl TEXT NOT NULL,
-	                            Director VARCHAR(255) NOT NULL,
-	                            Producer VARCHAR(255) NOT NULL,
-	                            Release_date DATE NOT NULL,
-	                            Url VARCHAR(255) NOT NULL,
-	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL
+	                            Title VARCHAR(255) ,
+	                            EpisodeId INT ,
+	                            OpeningCrawl TEXT ,
+	                            Director VARCHAR(255),
+	                            Producer VARCHAR(255),
+	                            ReleaseDate DATE,
+	                            Url VARCHAR(255),
+	                            Created DATE,
+	                            Edited DATE,
+                                SwapiId INT
                             );";
         await repository.CreateTable(script);
     }
@@ -175,9 +193,10 @@ public class ImporterLogic : IImporterLogic
                                 Climate VARCHAR(255),
                                 Terrain VARCHAR(255),
                                 SurfaceWater VARCHAR(255),
-	                            Url VARCHAR(255) NOT NULL,
-	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL
+	                            Url VARCHAR(255) ,
+	                            Created DATE ,
+	                            Edited DATE ,
+                                SwapiId INT
                             );";
         await repository.CreateTable(script);
     }
@@ -186,7 +205,7 @@ public class ImporterLogic : IImporterLogic
     {
         const string script = @"CREATE TABLE IF NOT EXISTS People (
 	                            Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	                            Name VARCHAR(255) NOT NULL,
+	                            Name VARCHAR(255) ,
 	                            Birth_year VARCHAR(255),
 	                            Eye_color VARCHAR(255),
 	                            Gender VARCHAR(255),
@@ -194,11 +213,11 @@ public class ImporterLogic : IImporterLogic
 	                            Height VARCHAR(255),
 	                            Mass VARCHAR(255),
 	                            Skin_color VARCHAR(255),
-	                            HomeworldId int,
-	                            Url VARCHAR(255) NOT NULL,
-	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL,
-	                            FOREIGN KEY (HomeworldId) REFERENCES Planets(Id)
+	                            Homeworld VARCHAR(255),
+	                            Url VARCHAR(255) ,
+	                            Created DATE ,
+	                            Edited DATE ,
+                                SwapiId INT
                             );";
         await repository.CreateTable(script);
     }
@@ -215,12 +234,12 @@ public class ImporterLogic : IImporterLogic
                                 HairColors VARCHAR(255),
                                 EyeColors VARCHAR(255),
                                 AverageLifespan VARCHAR(255),
-                                HomeworldId int,
+                                Homeworld VARCHAR(255),
                                 Language VARCHAR(255),
-	                            Url VARCHAR(255) NOT NULL,
-	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL,
-	                            FOREIGN KEY (HomeworldId) REFERENCES Planets(Id)
+	                            Url VARCHAR(255) ,
+	                            Created DATE ,
+	                            Edited DATE ,
+                                SwapiId INT
                             );";
         await repository.CreateTable(script);
     }
@@ -242,9 +261,10 @@ public class ImporterLogic : IImporterLogic
                                 HyperdriveRating VARCHAR(255),
                                 Mglt VARCHAR(255),
                                 StarshipClass VARCHAR(255),
-	                            Url VARCHAR(255) NOT NULL,
-	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL
+	                            Url VARCHAR(255) ,
+	                            Created DATE ,
+	                            Edited DATE ,
+                                SwapiId INT
                             );";
         await repository.CreateTable(script);
     }
@@ -263,9 +283,10 @@ public class ImporterLogic : IImporterLogic
                                 Passengers VARCHAR(255),
                                 CargoCapacity VARCHAR(255),
                                 Consumables VARCHAR(255),
-	                            Url VARCHAR(255) NOT NULL,
-	                            Created DATE NOT NULL,
-	                            Edited DATE NOT NULL
+	                            Url VARCHAR(255) ,
+	                            Created DATE ,
+	                            Edited DATE ,
+                                SwapiId INT
                             );";
         await repository.CreateTable(script);
     }

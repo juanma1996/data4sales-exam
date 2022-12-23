@@ -26,4 +26,9 @@ public class EntityLogic<T> : IEntityLogic<T> where T : class
     {
         await Repository.DeleteAsync(id);
     }
+
+    public async Task<bool> Exists(int id)
+    {
+        return await Repository.Exists(id);
+    }
 }

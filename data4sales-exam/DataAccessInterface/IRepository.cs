@@ -8,4 +8,5 @@ public interface IRepository<T> where T : class
     Task UpdateAsync(T entity, string script);
     Task DeleteAsync(int id);
     Task InsertRelation(string script);
+    Task<bool> Exists(int id);
 }

@@ -14,17 +14,46 @@ public class PeopleLogic : EntityLogic<People>, IPeopleLogic
     {
         foreach (var item in entity)
         {
-            await Add(item);
+            var ids = item.Url.Split('/');
+            if (ids.Length >= 5)
+            {
+                var exists = await Repository.Exists(int.Parse(ids[5]));
+                if (!exists)
+                {
+                    item.SwapiId = int.Parse(ids[5]);
+                    await Add(item);
+                }
+            }
         }
     }
 
     public async Task<int> Add(People entity)
     {
-        throw new NotImplementedException();
+
+        var script =
+            @"INSERT INTO People (Birth_Year, Eye_Color, Gender, Hair_Color, Height, Mass, Name, Skin_Color, Homeworld,url, created, edited, SwapiId)
+                            VALUES (@BirthYear, @EyeColor, @Gender, @HairColor, @Height, @Mass, @Name, @SkinColor, @Homeworld, @url, @created, @edited, @SwapiId)";
+        return await Repository.AddAsync(entity, script);
     }
 
     public async Task Update(int id, People entity)
     {
-        throw new NotImplementedException();
+        entity.Id = id;
+        entity.Edited = DateTime.Now;
+        var script = @"UPDATE People
+                            SET Birth_Year = @BirthYear,
+                                Eye_Color = @EyeColor,
+                                Gender = @Gender,
+                                Hair_Color = @HairColor,
+                                Height = @Height,
+                                Mass = @Mass,
+                                Name = @Name,
+                                Skin_Color = @Skin_Color,
+                                Homeworld = @Homeworld,
+                                url = @url,
+                                created = @created,
+                                edited = @edited
+                            WHERE id = @id";
+        await Repository.UpdateAsync(entity, script);
     }
 }

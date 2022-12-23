@@ -14,17 +14,46 @@ public class StarshipLogic : EntityLogic<Starship>, IStarshipLogic
     {
         foreach (var item in entity)
         {
-            await Add(item);
+            var ids = item.Url.Split('/');
+            if (ids.Length >= 5)
+            {
+                var exists = await Repository.Exists(int.Parse(ids[5]));
+                if (!exists)
+                {
+                    item.SwapiId = int.Parse(ids[5]);
+                    await Add(item);
+                }
+            }
         }
     }
 
     public async Task<int> Add(Starship entity)
     {
-        throw new NotImplementedException();
+        var script =
+            @"INSERT INTO Starships (Mglt, HyperdriveRating, StarshipClass, Name, Model, Passengers, CargoCapacity, Consumables, CostInCredits, Crew, Length, Manufacturer, MaxAtmospheringSpeed,url, created, edited, SwapiId)
+                            VALUES (@Mglt, @HyperdriveRating, @StarshipClass, @Name, @Model, @Passengers, @CargoCapacity, @Consumables, @CostInCredits, @Crew, @Length, @Manufacturer, @MaxAtmospheringSpeed, @url, @created, @edited, @SwapiId)";
+        return await Repository.AddAsync(entity, script);
     }
 
     public async Task Update(int id, Starship entity)
     {
-        throw new NotImplementedException();
+        entity.Id = id;
+        entity.Edited = DateTime.Now;
+        var script = @"UPDATE Starships
+                            SET Mglt = @Mglt,
+                                HyperdriveRating = @HyperdriveRating,
+                                StarshipClass = @StarshipClass,
+                                CargoCapacity = @CargoCapacity,
+                                Consumables = @Consumables,
+                                CostInCredits = @CostInCredits,
+                                Crew = @Crew,
+                                Length = @Length,
+                                Manufacturer = @Manufacturer,
+                                MaxAtmospheringSpeed = @MaxAtmospheringSpeed,
+                                url = @url,
+                                created = @created,
+                                edited = @edited
+                            WHERE id = @id";
+        await Repository.UpdateAsync(entity, script);
     }
 }

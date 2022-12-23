@@ -11,8 +11,8 @@ public class Film : BaseClass
     [JsonPropertyName("planets")] public IEnumerable<string> Planets { get; set; }
     [JsonPropertyName("producer")] public string Producer { get; set; }
     [JsonPropertyName("release_date")] public string ReleaseDate { get; set; }
-    [JsonPropertyName("cost_in_credits")] public IEnumerable<string> Species { get; set; }
-    [JsonPropertyName("cost_in_credits")] public IEnumerable<string> Starships { get; set; }
+    [JsonPropertyName("species")] public IEnumerable<string> Species { get; set; }
+    [JsonPropertyName("starships")] public IEnumerable<string> Starships { get; set; }
     [JsonPropertyName("title")] public string Title { get; set; }
     [JsonPropertyName("vehicles")] public IEnumerable<string> Vehicles { get; set; }
 }

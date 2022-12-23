@@ -62,6 +62,14 @@ public class Repository<T> : IRepository<T> where T : class
         await connection.ExecuteAsync(script);
     }
 
+    public async Task<bool> Exists(int id)
+    {
+        var sql = $"SELECT COUNT(1) FROM {GetTableName()} WHERE SwapiId = @Id";
+        using var connection = context.CreateConnection();
+        connection.Open();
+        return await connection.QuerySingleOrDefaultAsync<bool>(sql, new {id});
+    }
+
     private static string GetTableName()
     {
         return typeof(T) == typeof(People) ? "People" : typeof(T).Name + "s";

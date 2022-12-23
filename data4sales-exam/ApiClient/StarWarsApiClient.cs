@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Text.Json;
 using ApiClientInterface;
 using Domain;
 
@@ -43,8 +44,9 @@ public class StarWarsApiClient : IApiClient
         using var client = GetClient();
         var response = await client.GetAsync(url);
         response.EnsureSuccessStatusCode();
-        var result = await response.Content.ReadAsAsync<T>();
-
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<T>(jsonResponse)!;
+        //var result = await response.Content.ReadAsAsync<T>();
         return result;
     }
 }

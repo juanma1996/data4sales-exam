@@ -10,4 +10,5 @@ public class BaseClass
     [JsonPropertyName("created")] public DateTime Created { get; set; }
 
     [JsonPropertyName("edited")] public DateTime Edited { get; set; }
+    public int SwapiId { get; set; }
 }

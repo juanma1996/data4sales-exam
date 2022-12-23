@@ -22,7 +22,17 @@ public class PlanetLogic : EntityLogic<Planet>, IPlanetLogic
     {
         foreach (var item in planets)
         {
-            var newPlanetId = await Add(item);
+            var ids = item.Url.Split('/');
+            if (ids.Length >= 5)
+            {
+                var exists = await Repository.Exists(int.Parse(ids[5]));
+                if (!exists)
+                {
+                    item.SwapiId = int.Parse(ids[5]);
+                    await Add(item);
+                }
+            }
+            //var newPlanetId = await Add(item);
             //var people = await apiClient.GetListAsync<People>(item.residents);
             //foreach (var resident in people)
             //{
@@ -42,8 +52,8 @@ public class PlanetLogic : EntityLogic<Planet>, IPlanetLogic
     public async Task<int> Add(Planet planet)
     {
         var script =
-            @"INSERT INTO Planets (climate, diameter, gravity, name, orbitalperiod, population, rotationperiod, surfacewater, terrain, url, created, edited)
-                            VALUES (@climate, @diameter, @gravity, @name, @orbitalperiod, @population, @rotationperiod, @surfacewater, @terrain, @url, @created, @edited)";
+            @"INSERT INTO Planets (climate, diameter, gravity, name, orbitalperiod, population, rotationperiod, surfacewater, terrain, url, created, edited, SwapiId)
+                            VALUES (@climate, @diameter, @gravity, @name, @orbitalperiod, @population, @rotationperiod, @surfacewater, @terrain, @url, @created, @edited, @SwapiId)";
         return await Repository.AddAsync(planet, script);
     }
 
@@ -56,10 +66,10 @@ public class PlanetLogic : EntityLogic<Planet>, IPlanetLogic
                                 diameter = @diameter,
                                 gravity = @gravity,
                                 name = @name,
-                                orbital_period = @orbital_period,
+                                orbitalperiod = @orbitalperiod,
                                 population = @population,
-                                rotation_period = @rotation_period,
-                                surface_water = @surface_water,
+                                rotationperiod = @rotationperiod,
+                                surfacewater = @surfacewater,
                                 terrain = @terrain,
                                 url = @url,
                                 created = @created,
